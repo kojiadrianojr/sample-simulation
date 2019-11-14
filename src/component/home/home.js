@@ -1,6 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
-
+import auth from '../../controller/auth'
 const useStyle = theme => ({});
 
 class Home extends React.Component {
@@ -11,7 +11,7 @@ class Home extends React.Component {
   componentDidMount() {
     // console.log()
     // console.log(this.props);
-    localStorage.getItem("user")
+    auth.isAuthorized()
       ? this.props.history.push("/")
       : this.props.history.push("/landing");
   }

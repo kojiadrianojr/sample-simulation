@@ -3,6 +3,8 @@ import { withStyles } from "@material-ui/core/styles";
 import { TextField, Button } from "@material-ui/core";
 import axios from "axios";
 
+import auth from '../../controller/auth'
+
 const useStyle = theme => ({
   loginCard: {
     width: "400px",
@@ -48,7 +50,6 @@ class Login extends React.Component {
   }
 
   handleUname(e) {
-    console.log(e.value);
     this.setState({ unameVal: e.value });
     this.state.pwdVal && e.value !== ""
       ? this.setState({ disableState: false })
@@ -56,7 +57,6 @@ class Login extends React.Component {
   }
 
   handlePwd(e) {
-    console.log(e.value);
     this.setState({ pwdVal: e.value });
     e.value && this.state.unameVal !== ""
       ? this.setState({ disableState: false })
@@ -67,29 +67,45 @@ class Login extends React.Component {
     e.preventDefault();
     // console.log(this.props.history);
 
-    var user;
-    axios.get(`http://172.60.60.53:3000/user`).then(res => {
-      user = res.data.filter(item => {
-        return (
-          item.username == this.state.unameVal &&
-          item.password == this.state.pwdVal
-        );
-      });
+    // var user;
+    // axios.get(`http://172.60.60.53:3000/user`).then(res => {
+    //   user = res.data.filter(item => {
+    //     return (
+    //       item.username == this.state.unameVal &&
+    //       item.password == this.state.pwdVal
+    //     );
+    //   });
 
-      // user[0]
-      //   ? this.props.history.push("/")
-      //   : this.props.history.push("/landing");
-      if (user[0]) {
-        localStorage.setItem("user", JSON.stringify(user[0]));
-        this.props.history.push("/");
-        alert("Welcome " + user[0].username);
-      } else {
-        alert("Invalid account");
-        this.props.history.push("/landing");
-      }
-    });
+    //   // user[0]
+    //   //   ? this.props.history.push("/")
+    //   //   : this.props.history.push("/landing");
+    //   if (user[0]) {
+    //     localStorage.setItem("user", JSON.stringify(user[0]));
+    //     this.props.history.push("/");
+    //     alert("Welcome " + user[0].username);
+    //   } else {
+    //     alert("Invalid account");
+    //     this.props.history.push("/landing");
+    //   }
+    // });
+    var testObj = {
+      username: this.state.unameVal,
+      password: this.state.pwdVal
+    }
 
-    // alert(x);
+    testObj.username !== '' && testObj.password !== ''? (
+      auth.login(testObj)
+      .then(response => {
+        console.log(response)
+      })
+      .then(()=> this.props.history.push("/"))
+      .catch(err=>{
+        console.log(err)
+      })
+    ):(
+      console.log('please enter something!!')
+    )
+    
   }
 
   render() {
@@ -102,7 +118,7 @@ class Login extends React.Component {
         >
           <div className={classes.cardBody}>
             <span className={classes.loginTitle}>
-              <b class="boom-camp">Boom Camp</b>
+              <b className="boom-camp">Boom Camp</b>
               <span>Sign-in Simulation</span>
             </span>
 

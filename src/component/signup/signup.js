@@ -43,7 +43,7 @@ class Signup extends React.Component {
       >
         <div className={classes.cardBody}>
           <span className={classes.loginTitle}>
-            <b class="boom-camp">Boom Camp</b>
+            <b className="boom-camp">Boom Camp</b>
             <span>Sign-Up</span>
           </span>
           <TextField
