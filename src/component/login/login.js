@@ -99,9 +99,7 @@ class Login extends React.Component {
         console.log(response)
       })
       .then(()=> this.props.history.push("/"))
-      .catch(err=>{
-        console.log(err)
-      })
+      .catch(err => console.log('login.js',err))
     ):(
       console.log('please enter something!!')
     )
